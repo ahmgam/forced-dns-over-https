@@ -1,4 +1,4 @@
-# forced-dns-over-https
+# Geo-filtering for self-hosted dns server
 
 ## Introduction
 
