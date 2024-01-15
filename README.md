@@ -1,5 +1,5 @@
 # forced-dns-over-https
-Force dns server to work on HTTP protocol
+
 ## Introduction
 
 I've been self-hosting private `Adguard Home` dns server for a while, I've noticed recently huge number of dns requests targeting common domains like Cisco, Adobe, Atlassian ... 
