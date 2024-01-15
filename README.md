@@ -2,7 +2,7 @@
 Force dns server to work on HTTP protocol
 ## Introduction
 
-I've been self-hosting private **Adguard Home** dns server for a while, I've noticed recently huge number of dns requests targeting common domains like Cisco, Adobe, Atlassian ... 
+I've been self-hosting private `Adguard Home` dns server for a while, I've noticed recently huge number of dns requests targeting common domains like Cisco, Adobe, Atlassian ... 
 which clearly means that I'm under **DNS flooding** attack.
 
 I noticed first that my connection was very slow unitl it's almost stopped working! 
@@ -26,7 +26,7 @@ I had an idea : *what if I redirected dns request to be DoH request so I'll have
 
 And I found fancy solution for this problem using [docker-cloudflared](https://github.com/crazy-max/docker-cloudflared/tree/master) , the main idea is that I convert normal UDP request (DNS query) into DoH query that uses my domain, Then I added rule to Cloudflare WAF to accept requests only from my country.
 
-`Cloudflared` should listen to port `53`, so he can re-route all requests on this port.
+`Cloudflared` should listen to port 53, so he can re-route all requests on this port.
 
 ## steps 
 
@@ -39,9 +39,9 @@ And I found fancy solution for this problem using [docker-cloudflared](https://g
    you need to do this even If you're planning to use docker compose, because of the next step.
 
 2. stop the `systemd-resolved` service, this is the default dns system resolver and it's listening to port 53, you won't be able to start before this step, note also that if you stopped it before pulling image, docker won't be able to resolve docker hub ip to pull the image
-  ```bash
-  sudo systemctl stop systemd-resolved
-  ```
+     ```bash
+     sudo systemctl stop systemd-resolved
+     ```
 
 3. create new `docker-compose.yml` file and add the following content to it :
    ```yaml
@@ -68,11 +68,11 @@ And I found fancy solution for this problem using [docker-cloudflared](https://g
            - "TUNNEL_DNS_UPSTREAM=https://$YOUR_DOMAIN/dns-query"
          restart: always
    ```
-  replace `YOUR_TZ` with your timezone, and `YOUR_DOMAIN` with your domain
-  and then :
-  ```bash
-  docker compose up -d
-  ```
+     replace `YOUR_TZ` with your timezone, and `YOUR_DOMAIN` with your domain
+     and then :
+     ```bash
+     docker compose up -d
+     ```
 4. On your account on Cloudflare, from Security -> WAF , add rule to block request if country is not equal to your country.
 
 and that's it! I hope you find this information useful.
